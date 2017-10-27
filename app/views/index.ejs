@@ -1,0 +1,174 @@
+<html>
+    <head>
+        <title>Oraculo - Deus ao contrário</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="keywords" content="adivinhação, adivinhar, oraculo, segredo, descoberta, pergunta, resposta" />
+        <meta name="description" content=" Oraculo o famoso programa que adivinha qualquer tipo de pergunta realizada./>
+        <meta name="language" content="pt-br" />
+        <link rel="stylesheet" href="estranho.css" type="text/css"/>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+        <script type="text/javascript">
+       <script src="script2.js"></script>
+          <script src="script1.js"></script>
+
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script src="jquery.blockUI.js"></script>
+        <script type="text/javascript">
+			function novaPergunta() {
+				pos = 0;
+				pos = 0;
+				ligado = false;
+				$("#resposta").text("");
+				$("#pergunta").val("");
+				$("#blocoResposta").fadeOut(300);
+				$("#pergunta").attr("disabled", false)
+				$("#perguntaArea").slideDown();
+			}
+
+			function respostaFinalUI() {
+				$.blockUI({
+					message: $("#loading"),
+					css: {
+						border: "1px solid gray",
+						padding: "15px",
+						backgroundColor: "#000",
+						"-webkit-border-radius": "10px",
+						"-moz-border-radius": "10px",
+						"border-radius": "10px",
+						color: "#fff"
+					},
+					fadeIn: 500
+				});
+				setTimeout(function() {
+					$.unblockUI({
+						onUnblock: function() {
+							respostaFinal();
+							$("#perguntaArea").slideUp();
+						}
+					})
+				}, 3500)
+			}
+
+			function respostaFinal() {
+				var respostas = ["Não adianta humano, você não tem poder sobre mim!", "HA HA HA!", "Minha sabedoria está longe do seu alcance!", "Estou ocupado, volte outra hora!"];
+
+				if ($("#resposta").text() == "") $("#resposta").text(respostas[Math.floor(Math.random() * respostas.length)]);
+				$("#blocoResposta").fadeIn(300);
+				$("#pergunta").attr("disabled", true)
+			}
+
+			var ligado = false;
+			var pos = 0;
+			var strPergunta = "Oráculo grande conhecedor de todo universo, e supremo óraculo do mundo, grande sabedoria e imensidão dos mundos.";
+
+			$(document).ready(function() {
+				// Key by key backspace
+				$("#pergunta").keydown(function(a) {
+					var key = 'which' in a ? a.which : a.keyCode;
+					if(key == 8)
+					{
+						a.preventDefault();
+						return false;
+					}
+				});
+
+				$("#pergunta").keypress(function(a) {
+					var key = 'which' in a ? a.which : a.keyCode;
+
+					if (key == 59) {
+						ligado = ligado != true;
+						a.preventDefault(); // prevent text input
+						return false;
+					}
+
+					if (ligado) {
+						if (key != 8){
+							var letraReposta = String.fromCharCode(key);
+							var stringReposta = $("#resposta").text() + letraReposta;
+
+							$("#resposta").text(stringReposta);
+							$("#pergunta").val($("#pergunta").val() + strPergunta.substring(pos, pos+1));
+
+							pos++;
+
+							a.preventDefault(); // prevent text input
+							return false;
+						}
+					}
+				});
+
+				// Backspace
+				$("#pergunta").keyup(function(a) {
+					var key = 'which' in a ? a.which : a.keyCode;
+
+					if (key == 8) {
+						if (ligado) {
+							var respostaText = $("#resposta").text();
+							if (respostaText.length > 0) {
+								respostaText = respostaText.substring(0, respostaText.length - 1);
+								$("#resposta").text(respostaText);
+							}
+
+							if(pos > 0) {
+								pos--;
+							}
+						}
+
+						var perguntaText = $("#pergunta").val();
+						if(perguntaText.length > 0) {
+							perguntaText = perguntaText.substring(0, perguntaText.length - 1);
+							$("#pergunta").val(perguntaText);
+						}
+
+						a.preventDefault(); // prevent text input
+						return false;
+					}
+				})
+			});
+        </script>
+    </head>
+    <body>
+		<div id="fb-root"></div>
+
+
+        <div id="table">
+        <div id="cell">
+        <div id="conteudo">
+
+             <center>
+             <div class="supremo">
+                <h1>Oráculo</h1></br>
+                <img src="./images/oraculo2.jpeg" alt="Oráculo, grande sabio." width="25%" heigth="25%" /><br/>
+                <div style="text-align: left;"></br>
+                    <center><p>O Oráculo deve ser usado com extrema cautela.</p></center>
+                    <center> <p>Para que o Oráculo responda, você deve elogiá-lo, e em seguida fazer a pergunta.</p></center>
+                </div>
+                <a type="button" class="button red bigrounded" onclick="novaPergunta()" style="margin: 10px 0px 5px 0px">Nova pergunta</a>
+                <div style="text-align:left">Sua pergunta:</div>
+
+				<input type="text" id="pergunta" class="inputText" style="font-size: 20px; width: 95%" disabled="true" autocomplete="off">
+
+				<div id="perguntaArea" style="display:none">
+					<a type="button" name= "area2" class="button red bigrounded" onclick="respostaFinalUI()" style="margin: 10px 0px 10px 0px">Responda-me, Oráculo</a>
+				</div>
+
+				<div id="blocoResposta" style="display:none;background:#000000;padding: 20px 0px">
+                    <span id="resposta"style="color:white"></span>
+                </div>
+            </div>
+ </center>
+
+
+            <div id="loading" style="display:none;text-align: center">
+                <img src="pentagrama.gif" width="400" height="320"/>
+
+                <p>Aguarde enquanto <strong>Oráculo</strong> busca sua resposta...</p>
+            </div>
+        </div>
+        </div>
+        </div>
+    </body>
+</html>
