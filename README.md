@@ -21,7 +21,7 @@
  
  # how to start the game
  
- <cod>
+ <code>
   node app.js
-  <code>
+  </code>
 
