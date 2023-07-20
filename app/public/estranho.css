@@ -75,7 +75,7 @@ position: static;
 *position: absolute; /* hack para o IE6 e IE7 */
 }
 #conteudo {
-top: -50%;
+top: -30;
 width: 970px;
 margin: auto;
 position: relative;
